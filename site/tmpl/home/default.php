@@ -5,20 +5,47 @@ use Joomla\CMS\Factory;
 
 $weekStart = date_create()->modify('Last Sunday')->format('Y-m-d');
 $username = Factory::getUser()->username;
+$db = JFactory::getDbo();
+
+
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  $query = $db->getQuery(true);
+  $query->select('data')->from('reports')->where("username = '$username'")->where("weekStart = '$weekStart'");
+  $db->setQuery($query);
+  $existingData = $db->loadRow();
+
+  if (empty($existingData)) {
+    $data = $_POST;
+  } else {
+    $query = $db->getQuery(true);
+    $query->delete('reports')->where("username = '$username'")->where("weekStart = '$weekStart'");
+    $db->setQuery($query)->execute();
+
+    $data = json_decode($existingData[0], true);
+    $nextInd = substr(array_key_last($data), -1);
+    $postLastInd = substr(array_key_last($_POST), -1);
+    for ($i = 1; $i <= $postLastInd; $i++) {
+      $nextInd++;
+      $data["dateTime-$nextInd"] = $_POST["dateTime-$i"];
+      $data["minutesSpent-$nextInd"] = $_POST["minutesSpent-$i"];
+      $data["activityType-$nextInd"] = $_POST["activityType-$i"];
+      $data["description-$nextInd"] = $_POST["description-$i"];
+    }
+  }
+
   $newReport = new stdClass();
   $newReport->username = $username;
   $newReport->weekStart = $weekStart;
-  $newReport->data = json_encode($_POST);
-  JFactory::getDbo()->insertObject('reports', $newReport);
+  $newReport->data = json_encode($data);
+  $db->insertObject('reports', $newReport);
 }
 
-$db = JFactory::getDbo();
+
 $query = $db->getQuery(true);
-$query->select(array('weekStart', 'data'))->from('reports')->where("username = '" . $username . "'");
+$query->select(array('weekStart', 'data'))->from('reports')->where("username = '$username'");
 $db->setQuery($query);
-$results = $db->loadRowList();
+$pastSubs = $db->loadRowList();
 ?>
 
 <div class="mx-auto" style="width: 250px;margin-bottom: 20px">
@@ -28,7 +55,7 @@ $results = $db->loadRowList();
 <div class="accordion accordion-flush" id="accordionFlushExample">
   <?php
   $reportNum = 1;
-  foreach ($results as $prevReport) {
+  foreach ($pastSubs as $prevReport) {
     $date = DateTime::createFromFormat('Y-m-d', $prevReport[0]);
     $date = $date->format('n/j/Y');
     $data = json_decode($prevReport[1], true);
