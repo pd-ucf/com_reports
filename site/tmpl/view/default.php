@@ -4,21 +4,25 @@ defined('_JEXEC') or die('Restricted Access');
 use Joomla\CMS\Factory;
 
 $weekStart = date_create()->modify('Last Sunday')->format('Y-m-d');
-$username = Factory::getUser()->username;
+$id = Factory::getUser()->id;
 $db = JFactory::getDbo();
 
 
 $query = $db->getQuery(true);
-$query->select('data')->from('reports')->where("username = '$username'")->where("weekStart = '$weekStart'");
+$query->select('data')->from('reports')->where("id = '$id'")->where("weekStart = '$weekStart'");
 $db->setQuery($query);
 $existingData = $db->loadRow();
 
 if (empty($existingData)) {
-    $data = json_encode($_POST);
+    $data = $_POST;
 } else {
+    $query = $db->getQuery(true);
+    $query->delete('reports')->where("id = '$id'")->where("weekStart = '$weekStart'");
+    $db->setQuery($query)->execute();
+
     $data = json_decode($existingData[0], true);
-    $nextInd = substr(array_key_last($data), -1);
-    $postLastInd = substr(array_key_last($_POST), -1);
+    $nextInd = count($data) / 4;
+    $postLastInd = count($_POST) / 4;
     for ($i = 1; $i <= $postLastInd; $i++) {
         $nextInd++;
         $data["dateTime-$nextInd"] = $_POST["dateTime-$i"];
@@ -26,10 +30,15 @@ if (empty($existingData)) {
         $data["activityType-$nextInd"] = $_POST["activityType-$i"];
         $data["description-$nextInd"] = $_POST["description-$i"];
     }
+
+    $newReport = new stdClass();
+    $newReport->id = $id;
+    $newReport->weekStart = $weekStart;
+    $newReport->data = json_encode($data);
+    $db->insertObject('reports', $newReport);
 }
 
 ?>
-
 <pre>
     <?php
     print_r($existingData);
@@ -38,6 +47,17 @@ if (empty($existingData)) {
 <pre>
     <?php
     print_r($data);
+    ?>
+</pre>
+<pre>
+    <?php
+    print_r($_POST);
+    ?>
+</pre>
+<pre>
+    <?php
+    print_r($postLastInd);
+    print_r($nextInd);
     ?>
 </pre>
 

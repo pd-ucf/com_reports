@@ -35,7 +35,7 @@ $weekEnd = date_create()->modify('Next Saturday')->format('Y-m-d');
             row.insertCell(-1).outerHTML = `<td style="max-width: 300px;text-align: center"><input style="text-align: center" type="datetime-local" min="<?php echo $weekStart ?>T00:00" max="<?php echo $weekEnd ?>T23:59" class="form-control" name="${"dateTime-" + i}" required/></td >`
             row.insertCell(-1).outerHTML = `<td style="width: 15px;"><input type="number" min="1" max="1000" value="1" class="form-control" name="${"minutesSpent-" + i}" /></td>`
             row.insertCell(-1).outerHTML = `<td style="width: 20px;"><input type="text" maxlength="21" class="form-control" required placeholder="Enter Type Here" name="${"activityType-" + i}" /></td>`
-            row.insertCell(-1).outerHTML = `<td> <textarea rows="1" cols="85" placeholder="Enter Description Here" class="form-control" name="${"description-" + i}"></textarea></td>`
+            row.insertCell(-1).outerHTML = `<td> <textarea rows="1" cols="83" placeholder="Enter Description Here" class="form-control" name="${"description-" + i}"></textarea></td>`
         }
     }
 
