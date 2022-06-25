@@ -9,7 +9,8 @@ $date_param = date_create($uri->getVar('date')) ?? date_create();
 $date_param->modify('Last Sunday');
 
 $weekStart = $date_param->format('Y-m-d');
-$displayWeek = $date_param->format('n/j/Y');
+$displayWeekStart = $date_param->format('n/j/Y');
+$displayWeekEnd = $date_param->modify('Next Saturday')->format('n/j/Y');
 $db = JFactory::getDbo();
 
 $query = $db->getQuery(true);
@@ -24,7 +25,8 @@ if(array_key_exists('search', $_POST)) {
 }
 
 ?>
-<h1>Reports of the Week - <?= $displayWeek;?></h1>
+<h1>Reports of the Week</h1>
+<h2><?php echo "$displayWeekStart - $displayWeekEnd";?></h2>
 
 <style>
     .filters {
@@ -42,7 +44,7 @@ if(array_key_exists('search', $_POST)) {
 
 <form method="post" class="filters"> 
     <div class="search-bar input-group"> 
-        <input name="date_param" class="form-control" value="<?php echo $displayWeek ?>" type="date"/>
+        <input name="date_param" class="form-control" value="<?php echo $displayWeekStart ?>" type="date"/>
         <input type="submit" name="search" value="Search" class="btn btn-secondary" />
         <a class="btn btn-danger" href="<?php echo JURI::current(); ?>?view=history">Clear</a>
     </div>
