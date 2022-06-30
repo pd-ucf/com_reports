@@ -3,8 +3,8 @@ defined('_JEXEC') or die('Restricted Access');
 
 use Joomla\CMS\Factory;
 
-$weekStart = date_create()->modify('Last Sunday')->format('Y-m-d');
-$displayWeek = date_create()->modify('Last Sunday')->format('n/j/Y');
+$weekStart = date_create()->modify('this Monday')->format('Y-m-d');
+$displayWeek = date_create()->modify('this Sunday')->format('n/j/Y');
 $db = JFactory::getDbo();
 
 $query = $db->getQuery(true);
@@ -13,8 +13,8 @@ $db->setQuery($query);
 $pastSubs = $db->loadRowList();
 
 ?>
-<h1>Reports of the Week - <?= $displayWeek;?></h1>
-<h2><?php if(!isset($pastSubs)) echo "There are no reports here"?></h2>
+<h1>Reports of the Week - <?= $displayWeek; ?></h1>
+<h2><?php if (!isset($pastSubs)) echo "There are no reports here" ?></h2>
 <div class="accordion accordion-flush" id="accordionFlushExample">
   <?php
   $reportNum = 1;
