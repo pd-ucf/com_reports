@@ -1,8 +1,8 @@
 <?php
 defined('_JEXEC') or die('Restricted Access');
 
-$weekStart = date_create()->modify('this Monday')->format('Y-m-d');
-$weekEnd = date_create()->modify('this Sunday')->format('Y-m-d');
+$weekStart = date_create()->modify('Monday this week')->format('Y-m-d');
+$weekEnd = date_create()->modify('Sunday this week')->format('Y-m-d');
 ?>
 
 <style>

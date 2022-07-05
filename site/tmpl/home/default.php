@@ -3,7 +3,7 @@ defined('_JEXEC') or die('Restricted Access');
 
 use Joomla\CMS\Factory;
 
-$weekStart = date_create()->modify('this Monday')->format('Y-m-d');
+$weekStart = date_create()->modify('Monday this week')->format('Y-m-d');
 $id = Factory::getUser()->id;
 $db = JFactory::getDbo();
 
