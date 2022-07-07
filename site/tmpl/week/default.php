@@ -7,6 +7,7 @@ use Joomla\CMS\Uri\Uri;
 // See if the user searched for a week, otherwise search the current week
 $uri = Uri::getInstance();
 $date_param = date_create($uri->getVar('date')) ?? date_create();
+$search_date = $date_param->format('Y-m-d');
 $date_param->modify('Monday this week');
 $weekStart = $date_param->format('Y-m-d');
 $displayWeekStart = $date_param->format('n/j/Y');
@@ -43,7 +44,7 @@ $noReportStudentIDs = array_diff($allStudentsIDs, $reportStudentIDs);
 if(array_key_exists('search', $_POST)) {
   $app = Factory::getApplication();
   $input = $app->input;
-  $app->redirect(JRoute::_(JURI::current() . "?view=history&date=" . $input->get('date_param')));
+  $app->redirect(JRoute::_(JURI::current() . "?view=week&date=" . $input->get('date_param')));
 }
 
 ?>
@@ -76,7 +77,7 @@ if(array_key_exists('search', $_POST)) {
         <a class="btn btn-danger" href="<?php echo JURI::current(); ?>?view=week">Clear</a>
     </div>
     <div>
-        <a class="btn btn-primary" href="<?php echo JURI::current(); ?>?view=history">Normal View</a>
+        <a class="btn btn-warning" href="<?php echo JURI::current(); ?>?view=history&date=<?= $search_date ?>">Normal View</a>
     </div>
 </form>
 
