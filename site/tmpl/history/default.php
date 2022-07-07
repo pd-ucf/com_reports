@@ -6,11 +6,11 @@ use Joomla\CMS\Uri\Uri;
 
 $uri = Uri::getInstance();
 $date_param = date_create($uri->getVar('date')) ?? date_create();
-$date_param->modify('Last Sunday');
+$date_param->modify('Monday this week');
 
 $weekStart = $date_param->format('Y-m-d');
 $displayWeekStart = $date_param->format('n/j/Y');
-$displayWeekEnd = $date_param->modify('Next Saturday')->format('n/j/Y');
+$displayWeekEnd = $date_param->modify('Sunday this week')->format('n/j/Y');
 $db = JFactory::getDbo();
 
 $query = $db->getQuery(true);
@@ -47,6 +47,9 @@ if(array_key_exists('search', $_POST)) {
         <input name="date_param" class="form-control" value="<?php echo $displayWeekStart ?>" type="date"/>
         <input type="submit" name="search" value="Search" class="btn btn-secondary" />
         <a class="btn btn-danger" href="<?php echo JURI::current(); ?>?view=history">Clear</a>
+    </div>
+    <div>
+        <a class="btn btn-success" href="<?php echo JURI::current(); ?>?view=week">Simple View</a>
     </div>
 </form>
 
