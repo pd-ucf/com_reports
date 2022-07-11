@@ -81,22 +81,24 @@ if(array_key_exists('search', $_POST)) {
     </div>
 </form>
 
-<table class="table" id="table">
-    <tr>
-        <th>Student</th>
-        <th>Reports Sent</th>
-    </tr>
+<table class="table table-striped" id="table">
+    <thread class="thread-dark">
+        <tr>
+            <th>Student</th>
+            <th>Reports Sent</th>
+        </tr>
+    <thread>
     <?php for($index = 0; $index < count($reportStudentIDs); $index++): ?>
-    <tr class="table-success">
-        <td><?= Factory::getUser($reportStudentIDs[$index])->name ?></td>
-        <td><?= $numStudentReports[$index] ?></td>
-    </tr>
+        <tr class="table-success">
+            <td><?= Factory::getUser($reportStudentIDs[$index])->name ?></td>
+            <td><?= $numStudentReports[$index] ?></td>
+        </tr>
     <?php endfor; ?>
     <?php foreach($noReportStudentIDs as $noReportStudentID): ?>
-    <tr class="table-danger">
-        <td><?= Factory::getUser($noReportStudentID)->name ?></td>
-        <td>0</td>
-    </tr>
+        <tr class="table-danger">
+            <td><?= Factory::getUser($noReportStudentID)->name ?></td>
+            <td>0</td>
+        </tr>
     <?php endforeach; ?>
 
 </table>
