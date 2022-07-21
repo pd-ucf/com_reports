@@ -18,7 +18,6 @@ class DisplayController extends BaseController {
                 $menu->setActive($item->id);
             }
         }
-        $menu->setActive(103);
         $viewName = $this->input->getCmd('view', 'login');
         $viewFormat = $document->getType();
         $view = $this->getView($viewName, $viewFormat);
