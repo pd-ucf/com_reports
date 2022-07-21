@@ -17,10 +17,6 @@ $weekEnd = date_create()->modify('Sunday this week')->format('Y-m-d');
         width: 70%;
         max-width: 825px;
     }
-
-    form {
-        margin: 0 auto;
-    }
 </style>
 
 <script>
