@@ -20,11 +20,31 @@ $query->select(array('data', 'id'))->from('reports')->where("weekStart = '$weekS
 $db->setQuery($query);
 $weekReports = $db->loadRowList();
 
+// Get all student ids (Group 11)
+$group_id = 11;
+$access = new JAccess();
+$allStudentsIDs = $access->getUsersByGroup($group_id);
+
+// Get the student ids of all students who sent reports this week
+// Also get the number of reports they sent that week
+$reportStudentIDs = [];
+$numStudentReports = [];
+foreach ($weekReports as $report) {
+  array_push($reportStudentIDs, $report[1]);
+
+  $data = json_decode($report[0], true);
+  $numReports = count($data) / 4;
+  array_push($numStudentReports, $numReports);
+}
+
+// Deduce the students who did not send reports this week
+$noReportStudentIDs = array_diff($allStudentsIDs, $reportStudentIDs);
+
 // If they search for a certain week, add the parameter and redirect
 if(array_key_exists('search', $_POST)) {
   $app = Factory::getApplication();
   $input = $app->input;
-  $app->redirect(JRoute::_(JURI::current() . "?view=history&date=" . $input->get('date_param')));
+  $app->redirect(JRoute::_(JURI::current() . "?view=week&date=" . $input->get('date_param')));
 }
 
 ?>
@@ -54,45 +74,31 @@ if(array_key_exists('search', $_POST)) {
     <div class="search-bar input-group"> 
         <input name="date_param" class="form-control" value="<?php echo $displayWeekStart ?>" type="date"/>
         <input type="submit" name="search" value="Search" class="btn btn-secondary" />
-        <a class="btn btn-danger" href="<?php echo JURI::current(); ?>?view=history">Clear</a>
+        <a class="btn btn-danger" href="<?php echo JURI::current(); ?>?view=week">Clear</a>
     </div>
     <div>
-        <a class="btn btn-success" href="<?php echo JURI::current(); ?>?view=week&date=<?= $search_date ?>">Simple View</a>
+        <a class="btn btn-warning" href="<?php echo JURI::current(); ?>?view=history&date=<?= $search_date ?>">Normal View</a>
     </div>
 </form>
-
-<h3><?php if(count($weekReports) == 0) echo "No reports found"?></h3>
 
 <table class="table table-striped" id="table">
     <thread class="thread-dark">
         <tr>
             <th>Student</th>
-            <th>Date/Time</th>
-            <th>Minutes Spent</th>
-            <th>Type</th>
-            <th>Description</th>
+            <th>Reports Sent</th>
         </tr>
-    </thread>
-    <?php foreach($weekReports as $studentReports): ?>
-        <?php
-            $data = json_decode($studentReports[0], true);
-            $studentName = Factory::getUser($studentReports[1])->name;
-            $reportIndex = 0;
-        ?>
-        <?php while(array_key_exists("dateTime-" . ++$reportIndex, $data)): ?>
-            <?php
-                $dateTime = $data["dateTime-$reportIndex"];
-                $minutesSpent = $data["minutesSpent-$reportIndex"];
-                $activityType =  $data["activityType-$reportIndex"];
-                $description =  $data["description-$reportIndex"];
-            ?>
-            <tr>
-                <td><?= $studentName; ?></td>
-                <td><?= $dateTime; ?></td>
-                <td><?= $minutesSpent; ?></td>
-                <td><?= $activityType; ?></td>
-                <td><?= $description; ?></td>
-            </tr>
-        <?php endwhile; ?>
+    <thread>
+    <?php for($index = 0; $index < count($reportStudentIDs); $index++): ?>
+        <tr class="table-success">
+            <td><?= Factory::getUser($reportStudentIDs[$index])->name ?></td>
+            <td><?= $numStudentReports[$index] ?></td>
+        </tr>
+    <?php endfor; ?>
+    <?php foreach($noReportStudentIDs as $noReportStudentID): ?>
+        <tr class="table-danger">
+            <td><?= Factory::getUser($noReportStudentID)->name ?></td>
+            <td>0</td>
+        </tr>
     <?php endforeach; ?>
+
 </table>
