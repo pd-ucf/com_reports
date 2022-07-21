@@ -81,7 +81,7 @@ if(array_key_exists('search', $_POST)) {
         ?>
         <?php while(array_key_exists("dateTime-" . ++$reportIndex, $data)): ?>
             <?php
-                $dateTime = $data["dateTime-$reportIndex"];
+                $dateTime = date_create($data["dateTime-$reportIndex"])->format('n/j/Y');
                 $minutesSpent = $data["minutesSpent-$reportIndex"];
                 $activityType =  $data["activityType-$reportIndex"];
                 $description =  $data["description-$reportIndex"];
