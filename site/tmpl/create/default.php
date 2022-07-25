@@ -18,8 +18,11 @@ $weekEnd = date_create()->modify('Sunday this week')->format('Y-m-d');
         max-width: 825px;
     }
 
-    form {
-        margin: 0 auto;
+    textarea {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100%;
     }
 </style>
 
