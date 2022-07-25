@@ -45,7 +45,19 @@ $query = $db->getQuery(true);
 $query->select(array('weekStart', 'data'))->from('reports')->where("id = '$id'");
 $db->setQuery($query);
 $pastSubs = $db->loadRowList();
+
 ?>
+<style>
+    textarea.form-control {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100%;
+    }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" ></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
 <div class="mx-auto" style="width: 250px;margin-bottom: 20px">
   <button type="button" class="btn btn-primary btn-lg" onclick="window.location.href='index.php?option=com_reports&view=create'">New Weekly Report</button>
@@ -92,7 +104,3 @@ $pastSubs = $db->loadRowList();
   ?>
 
 </div>
-
-
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
