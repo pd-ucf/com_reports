@@ -56,8 +56,6 @@ $pastSubs = $db->loadRowList();
     }
 </style>
 
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" ></script>
-
 <div class="mx-auto" style="width: 250px;margin-bottom: 20px">
   <button type="button" class="btn btn-primary btn-lg" onclick="window.location.href='index.php?option=com_reports&view=create'">New Weekly Report</button>
 </div>
