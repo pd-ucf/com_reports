@@ -102,7 +102,7 @@ if(array_key_exists('search', $_POST)) {
                 <td><?= $dateTime; ?></td>
                 <td><?= $minutesSpent; ?></td>
                 <td><?= $activityType; ?></td>
-                <td><textarea rows='1' cols="65" style="max-width:100%;" disabled><?= $description; ?></textarea></td>
+                <td><textarea rows='2' cols="65" style="max-width:100%;" disabled><?= $description; ?></textarea></td>
             </tr>
         <?php endwhile; ?>
     <?php endforeach; ?>
