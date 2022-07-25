@@ -28,6 +28,10 @@ if(array_key_exists('search', $_POST)) {
 }
 
 ?>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
 <style>
     .filters {
         margin-top: 20px;
@@ -44,6 +48,13 @@ if(array_key_exists('search', $_POST)) {
 
     .search-bar {
         width: 310px;
+    }
+
+    textarea {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100%;
     }
 </style>
 
@@ -91,8 +102,9 @@ if(array_key_exists('search', $_POST)) {
                 <td><?= $dateTime; ?></td>
                 <td><?= $minutesSpent; ?></td>
                 <td><?= $activityType; ?></td>
-                <td><?= $description; ?></td>
+                <td><textarea rows='1' cols="65" style="max-width:100%;" disabled><?= $description; ?></textarea></td>
             </tr>
         <?php endwhile; ?>
     <?php endforeach; ?>
 </table>
+<br><br><br><br><br><br> <!-- Makes it easier to expand descriptions at the bottom of the page --->
