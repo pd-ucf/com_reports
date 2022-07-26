@@ -50,6 +50,10 @@ if(array_key_exists('search', $_POST)) {
         width: 310px;
     }
 
+    table {
+        border-radius: 5px;
+    }
+
     textarea {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;

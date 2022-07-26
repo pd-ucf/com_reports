@@ -65,6 +65,10 @@ if(array_key_exists('search', $_POST)) {
     .search-bar {
         width: 310px;
     }
+
+    table {
+        border-radius: 5px;
+    }
 </style>
 
 <h1>Reports of the Week</h1>
