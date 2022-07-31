@@ -51,7 +51,7 @@ $weekEnd = date_create()->modify('Sunday this week')->format('Y-m-d');
 <body onload="setFields()"></body>
 
 <div style="text-align: center;">
-    <h3>Add Activities to the Week of <?php echo date_create()->modify('this Monday')->format('m/d/Y') ?></h3>
+    <h3>Add Activities to the Week of <?php echo date_create()->modify('Monday this week')->format('m/d/Y') ?></h3>
 </div>
 <div style="margin-bottom:10px;display:flex; flex-direction: row; justify-content: center; align-items: center">
     <input type='number' min='1' max='20' value='1' class="form-control" style="margin-right:10px;max-width: fit-content;float: left" id="setNumber">
